@@ -1,18 +1,19 @@
-import BlogPost from '@/components/BlogPost';
+import BlogPostItem from '@/components/BlogPostItem';
 import { getPosts } from '@/lib/posts';
 
 export default async function BlogPage() {
   const posts = await getPosts();
 
   return (
-    <div className={`w-full max-w-3xl mt-10 flex-col`}>
+    <div className={`flex flex-col mt-20`}>
       {posts.map((post) => (
-        <BlogPost
+        <BlogPostItem
           key={post._id}
+          id={post._id}
           title={post.title}
           date={post.date}
           desc={post.desc}
-          slug={post._raw.flattenedPath}
+          path={post._raw.flattenedPath}
         />
       ))}
     </div>
