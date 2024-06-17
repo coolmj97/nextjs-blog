@@ -7,7 +7,11 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        pretendard: ['var(--font-pretendard)'],
+      },
+    },
   },
   plugins: [require('@tailwindcss/typography')],
   darkMode: 'class',

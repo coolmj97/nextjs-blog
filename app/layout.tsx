@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header';
 import { ThemeProviders } from './theme-providers';
 
-const inter = Inter({ subsets: ['latin'] });
-
+const pretendard = localFont({
+  src: '../public/fonts/pretendard/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+});
 export const metadata: Metadata = {
   title: {
     template: '%s | Mlog', //동적 메타데이터
@@ -21,9 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body className={`${pretendard.variable} font-pretendard`}>
         <ThemeProviders>
-          <div className={`w-full max-w-3xl flex flex-col items-center p-3 mx-auto my-0`}>
+          <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0`}>
             <Header />
             {children}
           </div>
