@@ -2,10 +2,11 @@ import Link from 'next/link';
 import Nav from './Nav';
 import Image from 'next/image';
 import ThemeToggleButton from './ThemeToggleButton';
+import { RoughNotation } from 'react-rough-notation';
 
 export default function Header() {
   return (
-    <header className={`w-full max-w-3xl flex justify-between items-center my-1`}>
+    <header className={`flex justify-between items-center py-8`}>
       <Link href="/">
         <div className={`flex items-center`}>
           <Image
@@ -16,7 +17,9 @@ export default function Header() {
             height={40}
             className={`rounded-full mr-2`}
           />
-          Mlog
+          <RoughNotation type="highlight" show={true} color="#C2E7DA">
+            <div className={`font-pretendard font-normal text-2xl`}>Jade.Dev</div>
+          </RoughNotation>
         </div>
       </Link>
 

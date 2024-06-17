@@ -1,12 +1,34 @@
+'use client';
+
 import navlinks from '@/data/navlinks';
 import Link from 'next/link';
+import { useState } from 'react';
+import { RoughNotation } from 'react-rough-notation';
 
 export default function Nav() {
+  const [currentTitle, setCurrentTitle] = useState(null);
+
+  const onMouseOver = (title: string) => {
+    setCurrentTitle(title);
+  };
+
+  const onMouseLeave = () => {
+    setCurrentTitle(null);
+  };
+
   return (
     <nav>
       {navlinks.map((e) => (
-        <Link key={e.title} href={e.to} className={`mx-5`}>
-          {e.title}
+        <Link
+          key={e.title}
+          href={e.to}
+          className={`mx-5`}
+          onMouseOver={() => onMouseOver(e.title)}
+          onMouseLeave={onMouseLeave}
+        >
+          <RoughNotation type="underline" show={e.title === currentTitle ? true : false}>
+            {e.title}
+          </RoughNotation>
         </Link>
       ))}
     </nav>
