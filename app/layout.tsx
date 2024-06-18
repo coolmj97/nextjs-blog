@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import Header from '@/components/Header';
 import { ThemeProviders } from './theme-providers';
+import Footer from '@/components/Footer';
 
 const pretendard = localFont({
   src: '../public/fonts/pretendard/PretendardVariable.woff2',
@@ -12,10 +13,10 @@ const pretendard = localFont({
 });
 export const metadata: Metadata = {
   title: {
-    template: '%s | Mlog', //동적 메타데이터
-    default: 'Mlog',
+    template: '%s | Jade.Dev', //동적 메타데이터
+    default: 'Jade.Dev Blog',
   },
-  description: '개발 블로그입니다.',
+  description: 'Jade.Dev 개발 블로그입니다.',
 };
 
 export default function RootLayout({
@@ -25,12 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard`}>
+      <body className={`${pretendard.variable} font-pretendard `}>
         <ThemeProviders>
-          <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0`}>
+          <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 pb-8`}>
             <Header />
             {children}
           </div>
+
+          <Footer />
         </ThemeProviders>
       </body>
     </html>
