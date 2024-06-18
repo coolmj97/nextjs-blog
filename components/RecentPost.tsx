@@ -8,7 +8,7 @@ interface RecentPostProps {
 export default function RecentPosts({ posts }: RecentPostProps) {
   return (
     <section className={`mt-10`}>
-      <h1 className={`text-4xl mb-10`}>최근 포스팅</h1>
+      <h1 className={`text-3xl md:text-4xl font-semibold mb-10`}>Latest</h1>
       <div className={`flex flex-col`}>
         {posts.slice(0, 5).map((post) => (
           <BlogPostItem

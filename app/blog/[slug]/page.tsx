@@ -1,6 +1,7 @@
 import { getPost } from '@/lib/posts';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { notFound } from 'next/navigation';
+import { RoughNotation } from 'react-rough-notation';
 
 export function generateMetadata({ params }) {
   const post = getPost(params.slug);
@@ -20,8 +21,17 @@ export default function BlogDetailPage({ params }) {
   const MDXComponent = useMDXComponent(post.body.code);
 
   return (
-    <div className={`w-full mt-10`}>
-      <h1 className={`text-sky-700`}>{post.title}</h1>
+    <div className={`p-6 mt-5 md:mt-10`}>
+      <div className={`flex flex-col items-center`}>
+        <div className={`text-gray-400 mb-4 text-center text-sm`}>{post.date}</div>
+        <RoughNotation type="highlight" color="#ffe5ec" show>
+          <h1 className={`text-4xl md:text-5xl text-center inline-block`}>{post.title}</h1>
+        </RoughNotation>
+      </div>
+
+      {/* divider */}
+      <div className={`h-px bg-gray-200 my-8`}></div>
+
       <MDXComponent />
     </div>
   );

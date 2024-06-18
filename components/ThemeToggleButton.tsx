@@ -23,9 +23,9 @@ export default function ThemeToggleButton() {
     >
       {isMounted ? (
         theme === 'dark' ? (
-          <Image src={'./moon.svg'} alt={'darkMode'} width={24} height={24} />
+          <Image src={'../moon.svg'} alt={'darkMode'} width={24} height={24} priority />
         ) : (
-          <Image src={'./sun.svg'} alt={'lightMode'} width={24} height={24} />
+          <Image src={'../sun.svg'} alt={'lightMode'} width={24} height={24} priority />
         )
       ) : null}
     </button>
