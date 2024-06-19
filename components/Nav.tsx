@@ -22,7 +22,7 @@ export default function Nav() {
         <Link
           key={e.title}
           href={e.to}
-          className={`mx-5`}
+          className={`mx-2 md:mx-4`}
           onMouseOver={() => onMouseOver(e.title)}
           onMouseLeave={onMouseLeave}
         >

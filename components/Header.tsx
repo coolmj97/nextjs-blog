@@ -16,7 +16,7 @@ export default function Header() {
             height={40}
             className={`rounded-full mr-2`}
           />
-          <div className={`font-pretendard font-normal text-2xl`}>Jade.Dev</div>
+          <div className={`font-pretendard font-normal text-xl md:text-2xl`}>Jade.Dev</div>
         </div>
       </Link>
 
