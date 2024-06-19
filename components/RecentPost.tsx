@@ -7,7 +7,7 @@ interface RecentPostProps {
 
 export default function RecentPosts({ posts }: RecentPostProps) {
   return (
-    <section className={`mt-10`}>
+    <section className={`mt-10 md:mt-20`}>
       <h1 className={`text-3xl md:text-4xl font-semibold mb-10`}>Latest</h1>
       <div className={`flex flex-col`}>
         {posts.slice(0, 5).map((post) => (

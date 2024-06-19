@@ -6,11 +6,12 @@ import { ThemeProviders } from './theme-providers';
 import Footer from '@/components/Footer';
 
 const pretendard = localFont({
-  src: '../public/fonts/pretendard/PretendardVariable.woff2',
+  src: '../public/fonts/PretendardVariable.woff2',
   display: 'swap',
   weight: '45 920',
   variable: '--font-pretendard',
 });
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Jade.Dev', //동적 메타데이터
@@ -26,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard `}>
+      <body className={`${pretendard.variable} font-pretendard`}>
         <ThemeProviders>
           <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 pb-8`}>
             <Header />
