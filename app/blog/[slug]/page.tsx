@@ -1,3 +1,4 @@
+import createMetadata from '@/app/seo';
 import { getPost } from '@/lib/posts';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { notFound } from 'next/navigation';
@@ -9,10 +10,10 @@ export function generateMetadata({ params }) {
     notFound();
   }
 
-  return {
+  return createMetadata({
     title: post.title,
     description: post.desc,
-  };
+  });
 }
 
 export default function BlogDetailPage({ params }) {
