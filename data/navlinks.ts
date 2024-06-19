@@ -9,6 +9,10 @@ const navlinks: NavLinks[] = [
     to: '/',
   },
   {
+    title: 'About',
+    to: '/about',
+  },
+  {
     title: 'Blog',
     to: '/blog',
   },
