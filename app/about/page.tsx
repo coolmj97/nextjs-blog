@@ -6,18 +6,17 @@ export default function AboutPage() {
     <div className={`flex flex-col items-center border border-zinc-200 w-full rounded-3xl p-3`}>
       <div className={`flex items-center mb-8`}>
         <Image
-          priority
           src={'/images/mimoticon.jpeg'}
           alt="home-image"
           width={100}
           height={100}
-          className={`mb-4`}
+          className={`mb-4 rounded-full mr-4`}
         />
         <p className={`font-pretendard text-2xl`}>
           Hi!👋
           <br /> I&apos;m a{' '}
           <RoughNotation type="highlight" show color="#FCF300">
-            Junior Front-end Developer
+            <span className={`dark:text-black`}>Junior Front-end Developer</span>
           </RoughNotation>
         </p>
       </div>

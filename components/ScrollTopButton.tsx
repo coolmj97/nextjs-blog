@@ -23,9 +23,6 @@ export default function ScrollTopButton() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  //스크롤 높이를 계산
-  //계산 값에 따라 상태에 true/false 저장
-
   return (
     <button
       type="button"
@@ -34,7 +31,7 @@ export default function ScrollTopButton() {
         show ? 'opacity-100 max-h-full' : 'opacity-0 max-h-0'
       }`}
     >
-      <Image priority src={'../top.svg'} alt="맨 위로" width={40} height={40} />
+      <Image src={'../top.svg'} alt="맨 위로" width={40} height={40} />
     </button>
   );
 }
