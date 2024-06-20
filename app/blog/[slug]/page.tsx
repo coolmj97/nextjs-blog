@@ -31,6 +31,8 @@ export default function BlogDetailPage({ params }) {
       <div className={`h-px bg-gray-200 my-8`}></div>
 
       <MDXComponent />
+
+      <div className={`h-px bg-gray-200 my-8`}></div>
     </div>
   );
 }
