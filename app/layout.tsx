@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard`}>
         <ThemeProviders>
-          <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 pb-8`}>
+          <div className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 pb-8 h-screen`}>
             <Header />
             {children}
           </div>
