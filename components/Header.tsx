@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Nav from './Nav';
 import Image from 'next/image';
 import ThemeToggleButton from './ThemeToggleButton';
+import MobileNav from './MobileNav';
 
 export default function Header() {
   return (
@@ -22,6 +23,7 @@ export default function Header() {
 
       <div className={`flex items-center`}>
         <Nav />
+        <MobileNav />
         <ThemeToggleButton />
       </div>
     </header>
