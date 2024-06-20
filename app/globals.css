@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --svg-fill: #000000; /* 기본 SVG 색상 */
+}
+
+.dark {
+  --svg-fill: #ffffff; /* 다크 모드 SVG 색상 */
+}

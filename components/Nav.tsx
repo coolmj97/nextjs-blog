@@ -17,7 +17,7 @@ export default function Nav() {
   };
 
   return (
-    <nav>
+    <nav className={`hidden sm:block`}>
       {navlinks.map((e) => (
         <Link
           key={e.title}
