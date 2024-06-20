@@ -1,26 +1,15 @@
-import Image from 'next/image';
+import Github from './icons/Github';
+import Email from './icons/Email';
 
 export default function Footer() {
   return (
     <footer className={`flex flex-col justify-center items-center p-4`}>
-      <div className={`flex mb-3`}>
+      <div className={`flex items-center mb-3`}>
         <a href="mailto:minnjeong.kim@gmail.com" className={`mr-2`}>
-          <Image
-            src={'../email.svg'}
-            alt="email"
-            width={28}
-            height={28}
-            className={`dark:bg-white rounded-full`}
-          />
+          <Email />
         </a>
         <a href="https://github.com/coolmj97" target="blank" className={`inline-block`}>
-          <Image
-            src={'../github.svg'}
-            alt="github"
-            width={28}
-            height={28}
-            className={`dark:bg-white rounded-full`}
-          />
+          <Github />
         </a>
       </div>
 

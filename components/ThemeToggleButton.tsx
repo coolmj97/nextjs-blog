@@ -3,6 +3,8 @@
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Moon from './icons/Moon';
+import Sun from './icons/Sun';
 
 export default function ThemeToggleButton() {
   const { theme, setTheme } = useTheme();
@@ -21,13 +23,7 @@ export default function ThemeToggleButton() {
       className={`w-10 h-10 p-2 rounded-full hover:bg-gray-300 transition-all dark:bg-white`}
       onClick={toggleTheme}
     >
-      {isMounted ? (
-        theme === 'dark' ? (
-          <Image src={'../moon.svg'} alt={'darkMode'} width={24} height={24} priority />
-        ) : (
-          <Image src={'../sun.svg'} alt={'lightMode'} width={24} height={24} priority />
-        )
-      ) : null}
+      {isMounted ? theme === 'dark' ? <Moon /> : <Sun /> : null}
     </button>
   );
 }

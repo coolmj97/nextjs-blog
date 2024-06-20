@@ -1,7 +1,7 @@
 'use client';
 
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Top from './icons/Top';
 
 export default function ScrollTopButton() {
   const [show, setShow] = useState(false);
@@ -10,7 +10,6 @@ export default function ScrollTopButton() {
   };
 
   const onScroll = () => {
-    console.log(window.scrollY);
     if (window.scrollY > 350) {
       setShow(true);
     } else {
@@ -27,11 +26,11 @@ export default function ScrollTopButton() {
     <button
       type="button"
       onClick={onClick}
-      className={`fixed bottom-10 right-5 p-2 rounded-full bg-zinc-200 transition-all ${
+      className={`fixed bottom-10 right-5 p-2 rounded-full bg-zinc-200 dark:bg-zinc-600 transition-all ${
         show ? 'opacity-100 max-h-full' : 'opacity-0 max-h-0'
       }`}
     >
-      <Image src={'../top.svg'} alt="맨 위로" width={40} height={40} />
+      <Top />
     </button>
   );
 }
