@@ -1,4 +1,5 @@
 import createMetadata from '@/app/seo';
+import Comments from '@/components/Comments';
 import { getPost } from '@/lib/posts';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { notFound } from 'next/navigation';
@@ -26,13 +27,11 @@ export default function BlogDetailPage({ params }) {
         <div className={`text-gray-400 mb-4 text-center text-sm`}>{post.date}</div>
         <h1 className={`text-4xl md:text-5xl text-center inline-block`}>{post.title}</h1>
       </div>
-
       {/* divider */}
       <div className={`h-px bg-gray-200 my-8`}></div>
-
       <MDXComponent />
-
       <div className={`h-px bg-gray-200 my-8`}></div>
+      <Comments />
     </div>
   );
 }
