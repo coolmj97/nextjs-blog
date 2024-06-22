@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard`}>
+      <body className={`${pretendard.variable} font-pretendard dark:text-white-smoke`}>
         <ThemeProviders>
           <div
             className={`mx-auto max-w-3xl px-4 sm:px-6 xl:max-w-5xl xl:px-0 pb-8 h-screen flex flex-col justify-between`}

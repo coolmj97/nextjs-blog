@@ -11,6 +11,9 @@ const config: Config = {
       fontFamily: {
         pretendard: ['var(--font-pretendard)'],
       },
+      colors: {
+        'white-smoke': '#f5f5f5',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
