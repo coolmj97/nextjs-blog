@@ -4,6 +4,7 @@ import './globals.css';
 import Header from '@/components/Header';
 import { ThemeProviders } from './theme-providers';
 import Footer from '@/components/Footer';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const pretendard = localFont({
   src: '../public/fonts/PretendardVariable.woff2',
@@ -11,6 +12,8 @@ const pretendard = localFont({
   weight: '45 920',
   variable: '--font-pretendard',
 });
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
   title: {
@@ -40,6 +43,7 @@ export default function RootLayout({
           </div>
         </ThemeProviders>
       </body>
+      <GoogleAnalytics gaId={GA_ID} />
     </html>
   );
 }
