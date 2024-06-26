@@ -1,3 +1,3 @@
 import { withContentlayer } from 'next-contentlayer';
 
-export default withContentlayer({});
+export default withContentlayer({ reactStrictMode: true });
