@@ -24,12 +24,15 @@ export default function BlogDetailPage({ params }) {
   return (
     <div className={`p-6 mt-5 md:mt-10`}>
       <div className={`flex flex-col items-center`}>
-        <div className={`text-gray-400 mb-4 text-center text-sm`}>{post.date}</div>
-        <h1 className={`text-4xl md:text-5xl text-center inline-block`}>{post.title}</h1>
+        <h1 className={`text-4xl md:text-5xl text-center inline-block mb-4`}>{post.title}</h1>
+        <div className={`text-gray-400 text-center text-sm`}>{post.date}</div>
       </div>
       {/* divider */}
       <div className={`h-px bg-gray-200 my-8`}></div>
-      <MDXComponent />
+      <div className="prose max-w-full">
+        <MDXComponent />
+      </div>
+
       <div className={`h-px bg-gray-200 my-8`}></div>
       <Comments />
     </div>

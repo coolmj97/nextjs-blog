@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --svg-fill: #000000; /* 기본 SVG 색상 */
+  --svg-fill: #000000;
 }
 
 .dark {
-  --svg-fill: #ffffff; /* 다크 모드 SVG 색상 */
+  --svg-fill: #ffffff;
 }
