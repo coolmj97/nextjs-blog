@@ -29,7 +29,7 @@ export default function BlogDetailPage({ params }) {
       </div>
       {/* divider */}
       <div className={`h-px bg-gray-200 my-8`}></div>
-      <div className="prose max-w-full">
+      <div className="prose dark:prose-invert max-w-full">
         <MDXComponent />
       </div>
 
