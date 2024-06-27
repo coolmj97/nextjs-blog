@@ -27,11 +27,13 @@ export default function AboutPage() {
           </RoughNotation>
         </p>
       </div>
-      <ul>
+      <ul className="mb-5">
         <li>🚀 실패를 두려워하지 않습니다.</li>
         <li>🚀 긍정적인 사용자 경험을 위해 노력합니다.</li>
         <li>🚀 기록과 공유에 가치를 두고 이를 실천하기 위해 노력합니다.</li>
       </ul>
+
+      <div className=" text-xs">이 블로그는 Next.js 14를 기반으로 만들어졌습니다.</div>
     </div>
   );
 }
