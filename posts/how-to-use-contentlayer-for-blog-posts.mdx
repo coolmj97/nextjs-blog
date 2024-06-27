@@ -31,7 +31,7 @@ tailwind-nextjs-starter-blog는 말 그대로 `Nextjs + Tailwind`로 만들어�
 
 ## 패키지 설치
 
-```ts
+```node
 yarn add contentlayer next-contentlayer
 ```
 
@@ -39,7 +39,7 @@ yarn add contentlayer next-contentlayer
 
 `next.config.mjs` 또는 `next.config.js` 파일에서 아래와 같이 설정한다.
 
-```ts
+```ts title="next.config.mjs"
 import { withContentlayer } from 'next-contentlayer';
 
 export default withContentlayer({ reactStrictMode: true });
@@ -47,7 +47,7 @@ export default withContentlayer({ reactStrictMode: true });
 
 ## tsconfig.json 설정
 
-```ts
+```ts title="tsconfig.json"
 "compilerOptions": {
     ...
     "paths": {
@@ -67,7 +67,7 @@ export default withContentlayer({ reactStrictMode: true });
 `defineDocumentType`라는 함수 이름에서 보듯  
 내가 블로그로 작성할 글의 구조를 정의한다고 보면 된다.
 
-```ts
+```ts title="contentlayer.config.ts"
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
 
 export const Post = defineDocumentType(() => ({
@@ -98,7 +98,7 @@ mdx 파일에서 아래와 같이 생성한다.
 먼저 `contentlayer.config.ts`에서 정의한 문서 타입을 매핑해주는 작업이 필요하다.  
 `fields`에서 정의한 옵션과 타입에 맞게 잘 작성해준다.
 
-```mdx
+```mdx title="app/posts/my-first-post.mdx"
 ---
 title: 'contentlayer를 사용하여 블로그 게시글 생성하기'
 date: '2024.06.24'
@@ -113,7 +113,7 @@ desc: 'Next.js + Tailwind 환경에서 contentlayer를 이용한 정적 사이�
 
 터미널에서 아래와 같이 재실행하면,
 
-```
+```node
 npm run dev
 yarn dev
 .
@@ -131,7 +131,7 @@ Generated 1 documents in .contentlayer와 같이 문서가 생성됨을 알 수 
 
 렌더링 하고자 하는 페이지로 이동하여 useMDXComponent hook으로 MDX 컴포넌트를 불러온다.
 
-```ts
+```ts title="app/blog/page.tsx"
 export default function BlogDetailPage({ params }) {
   const post = getPost(params.slug);
   const MDXComponent = useMDXComponent(post.body.code);
@@ -164,7 +164,7 @@ post.body.code를 useMDXComponent의 인자로 넘겨주어야 했는데 body의
 
 **해결**
 
-```ts
+```ts title="contentlayer.config.ts"
 export const Post = defineDocumentType(() => ({
   ...
   contentType: 'mdx',

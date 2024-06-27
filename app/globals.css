@@ -8,4 +8,29 @@
 
 .dark {
   --svg-fill: #ffffff;
+
+  [data-rehype-pretty-code-title] {
+    border: none;
+    background-color: #26282b;
+  }
+}
+
+[data-rehype-pretty-code-figure] pre {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+[data-rehype-pretty-code-title] {
+  border: 1px solid #9ea4aa;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #999999;
 }
