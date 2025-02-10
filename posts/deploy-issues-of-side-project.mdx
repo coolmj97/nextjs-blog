@@ -1,0 +1,181 @@
+---
+title: 'Vercel DNS 차단이 불러온 고난'
+date: '2025.02.09'
+desc: '사이드 프로젝트 배포 및 이슈 해결 과정'
+---
+
+## 링크 접속이 안된다.
+
+포트폴리오를 위해 만들었던 사이드 프로젝트 2개가 있다.<br/>
+아래 프로젝트는 23년에 React+TS로 만들었는데
+24년에 중간중간 접속했을 때는 문제가 없었다.<br/>
+[Snapshot](https://brilliant-kangaroo-31314a.netlify.app/)
+
+그런데 불과 며칠 전에 확인 겸 다시 접속을 했더니 아예 막혀버렸다.
+![](https://github.com/user-attachments/assets/4497e340-217b-45b3-ae62-85a193d979f1)
+
+당황한 나머지 검색을 했는데 한국 정부에 의해 Vercel 도메인이 차단되었다는 사실을 알게 되었다.<br/>
+이미 24년 5월에 터진 일이었다...
+당연히 모르고 있었고 심지어 몇 달 전까지 접속이 잘 됐기 때문에 이런 이슈가 있을 거라고는 생각 못했다.<br/>
+브라우저는 크롬을 쓰고 있었기 때문에 캐시가 되어 있어서 그동안 잘 됐던 건가 싶었다.(주변인들에게 확인 좀 해달라고 할 껄껄껄...)
+
+접속도 되지 않는 사이드 프로젝트 링크를 걸어 서류 지원을 했으니 그동안의 시간과 노력을 허비한 느낌이었다.<br/>
+하지만 뒤늦게라도 알았으니 해결은 해야지.<br/>
+삽질을 통해 겨우 배포한 과정을 적어보려 한다.
+
+## 새롭게 배포를 하면 될 줄 알았다.
+
+Vercel을 계속 이용하려면 vercel.app만 아니면 되니 도메인을 구매해서 변경하는 방법이 있었다.<br/>
+하지만 돈을 지불하고 싶지는 않았기에 그냥 새로운 플랫폼에 배포하기로 결정했다.<br/>
+Snapshot은 프론트엔드와 백엔드 둘 다 작업을 했었고 백엔드의 경우 [Fly.io](https://fly.io/)에 배포가 된 상태였다.<br/>
+풀스택 배포도 가능하다길래 같은 곳으로 결정했다.
+
+Fly.io 홈페이지에서 프론트 레포지토리를 연결하고 환경 변수도 저장해서 냅다 배포했다.<br/>
+하지만 로딩이 지속되더니 502 에러가 발생하고 접속이 안됐다.
+
+## 일단 로컬에서 확인을 하자.
+
+기존 백엔드는 배포가 되어있었기 때문에 로컬에서 프론트 개발 서버를 띄우고 백엔드 실서버에 연결해서 테스트를 했다.<br/>
+인트로에서 로그인까지는 문제가 없었다.<br/>
+로그인은 firebase authentication을 사용했기 때문에 이 부분에 대한 문제는 없었다.<br/>
+하지만 로그인 후 피드 목록을 불러와야 하는데 여기서 무한 로딩이 걸렸다.<br/>
+네트워크 탭을 열어봤더니 계속 빨간색만 떠있었다. 서버보단 DB 쪽 문제일까 싶어 MongoDB Atlas에 접속했다.<br/>
+프리티어 클러스터가 장기간 사용을 하지 않아 자동으로 비활성화가 되어 있었다.
+바로 재시작을 했고 목록이 잘 불러와지는 것을 확인했다.
+
+이어서 기능을 테스트하다가 작성 페이지에서 <span style={{ backgroundColor: '#FFE6E6' }}>이미지가 업로드 되지 않는 문제</span>가 생겼다.<br/>
+
+확인을 위해 백엔드 로컬에 연결했는데 터미널에 AWS SDK v2를 v3로 마이그레이션하라는 문장이 보였다.<br/>
+결국 **마이그레이션**을 해야하는 것이었다.
+
+### AWS S3 마이그레이션
+
+<br />
+
+**기존 코드**
+
+```js
+const AWS = require('aws-sdk');
+
+const uploadImage = async (req, res) => {
+  const file = req.file;
+
+  const REGION = process.env.AWS_S3_REGION;
+  const ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY;
+  const SECRET_ACCESS_KEY = process.env.AWS_S3_SECRET_ACCESS_KEY;
+
+  AWS.config.update({
+    region: REGION,
+    credentials: {
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    },
+  });
+
+  const s3 = new AWS.S3();
+
+  try {
+    const uploadParams = {
+      Bucket: 'my-bucket',
+      Key: file.originalname,
+      Body: file.buffer,
+    };
+
+    const data = await s3.upload(uploadParams).promise();
+
+    res.send({ url: data.Location });
+  } catch (e) {
+    res.status(500).send();
+  }
+};
+```
+
+<br />
+**수정 코드**
+
+```js
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+
+const uploadImage = async (req, res) => {
+  const file = req.file;
+
+  const REGION = process.env.AWS_S3_REGION;
+  const ACCESS_KEY = process.env.AWS_S3_ACCESS_KEY;
+  const SECRET_ACCESS_KEY = process.env.AWS_S3_SECRET_ACCESS_KEY;
+
+  const s3 = new S3Client({
+    region: REGION,
+    credentials: {
+      accessKeyId: ACCESS_KEY,
+      secretAccessKey: SECRET_ACCESS_KEY,
+    },
+  });
+
+  try {
+    const bucketName = 'my-bucket';
+    const objectKey = file.originalname;
+
+    const objUrl = `https://${bucketName}.s3.${REGION}.amazonaws.com/${objectKey}`;
+
+    const uploadParams = {
+      Bucket: bucketName,
+      Key: objectKey,
+      Body: file.buffer,
+    };
+
+    await s3.send(new PutObjectCommand(uploadParams));
+
+    res.send({ url: objUrl });
+  } catch (e) {
+    res.status(500).send();
+  }
+};
+
+module.exports = {
+  uploadImage,
+};
+```
+
+크게 바뀐 것은 2가지인데
+
+1. 개별 클라이언트를 임포트
+
+```js
+const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
+```
+
+2. 직접 url을 생성 & params 전송 로직 변경
+
+```js
+const objUrl = `https://${bucketName}.s3.${REGION}.amazonaws.com/${objectKey}`;
+await s3.send(new PutObjectCommand(uploadParams));
+```
+
+그 외 자잘한 것들도 수정해서 다시 테스트 했더니 로컬에서는 모든 기능이 잘 동작했다.
+
+## 이제 실전 배포다.
+
+로컬에서 모든 게 잘 동작해서 fly.io에서 프론트, 백 모두 최신 코드로 다시 배포를 했다.<br/>
+BUT, 당연히 실패했다...
+
+우여곡절이 많았으나 배포 후 겪은 이슈를 나열해보자면,
+
+- (BE) 환경 변수 중 하나인 firebase admin sdk json 값을 base64로 인코딩을 하지 않아 에러 발생
+- (BE) 포트번호 때문에 fly.io에서 접근하지 못하는 이슈 > dockerfile & fly.toml 파일에서 포트번호를 수정
+- (BE) Error: Cannot find module '/app/app.js': 경로를 정확히 설정해 주지 않아 app.js 파일을 찾지 못함
+  - 구조가 **src/app.js**인 상태로 배포했더니 파일을 찾을 수 없다는 에러가 나타남<br/>
+    해결: app.js를 최상위 루트로 빼주고 dockerfile에서 <span style={{ backgroundColor: '#fff5b1', fontWeight:'bold' }}>CMD ["node", "app.js”]</span>로 변경해주니 재배포 > 정상적으로 서버가 실행됨
+
+이렇게 백엔드는 성공적으로 배포했다.<br/>
+프론트도 fly.io에서 배포를 시도했으나 백엔드보다 무언가 더 복잡한 설정이 필요해보였다.<br/>
+그래서 다른 프론트 배포 서비스를 찾아보다 netlify로 결정하고 배포를 시작했다.<br/>
+확실히 fly.io보다 직관적인 UI여서 어렵지 않았고 훨씬 쉽고 빠른 배포를 경험했다.👍
+
+## 소감: 배포는 참 어렵다.
+
+처음 배포할 때도 힘들었지만
+시간이 많이 지나 유지보수가 필요한 상태에서 원인을 확인하고 제대로 배포를 할 때까지
+연관된 모든 부분을 다 들여다 봐야하는 게 난이도 높게 느껴졌다.
+로컬에서는 잘 되어도 배포 과정에서 발생하는 이슈는 또 다른 차원의 경험이라고 생각했다.<br/>
+머리 아프고 힘든 일이었지만 4일 내내 고생하면서 쉽게 얻지 않은 지식이기에 쉽게 사라지지 않을 거라고 본다.<br/>
+참 값진 경험이었다.😌
